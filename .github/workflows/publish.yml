@@ -12,12 +12,13 @@ name: publish
 # identity via the id-token permission and matches it against the registered
 # trusted publisher on the package.
 #
-# Gotchas handled (see npm trusted-publishing 404 causes):
+# Gotchas handled (see npm trusted-publishing docs):
 # - permissions.id-token: write is required, else no OIDC token is minted.
-# - no NODE_AUTH_TOKEN env anywhere: if setup-node injects an empty one
-#   (from a missing NPM_TOKEN secret), npm takes the token path and 404s
-#   instead of falling through to OIDC. We pin node >= 22.14 so npm >= 11.5.1
-#   ships with it (below that, trusted publishing is unsupported).
+# - npm >= 11.5.1 is required for trusted publishing. Node 22.14 bundles
+#   npm 10.x, so we explicitly install npm@latest before publishing.
+# - no NODE_AUTH_TOKEN env anywhere: setup-node can inject an empty one
+#   (from a missing NPM_TOKEN secret) which makes npm take the token path
+#   instead of OIDC.
 
 on:
   push:
@@ -35,7 +36,15 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22.14' # >= 22.14 bundles npm >= 11.5.1 (OIDC minimum)
+          node-version: '22.14' # >= 22.14 (npm 11 requires Node >= 22.14)
+
+      # npm >= 11.5.1 is the OIDC/trusted-publishing minimum. Node 22.14
+      # ships npm 10.x, which does not support trusted publishing at all.
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
+
+      - name: Verify npm version
+        run: npm --version
 
       # prepack hook runs scripts/sync-deps.sh, which pulls the pinned
       # AgoraIO/skills release tag content into assets/agora before packing.

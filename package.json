@@ -1,0 +1,49 @@
+{
+  "name": "dsh-agora",
+  "version": "0.2.0",
+  "description": "DSH skill bundle: the Agora skill (RTC, RTM, ConvoAI, CLI, Cloud Recording, tokens) synced verbatim from AgoraIO/skills at a pinned release tag. Install to add the `agora` skill to DeepSeek Harness.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "assets"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/littleDogWang/dsh-agora.git"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "plugin",
+    "skill",
+    "agora",
+    "conversational-ai",
+    "rtc",
+    "rtm",
+    "voice-ai"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "sync:deps": "bash scripts/sync-deps.sh",
+    "prepack": "bash scripts/sync-deps.sh"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-skill": "^0.1.0-rc.7",
+    "@deepseek-ai/cordis": "^4.0.1"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-skill": "^0.1.0-rc.7"
+  }
+}

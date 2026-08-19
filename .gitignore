@@ -1,0 +1,10 @@
+node_modules/
+*.tgz
+.DS_Store
+# Build artifacts — synced verbatim from AgoraIO/skills at release time.
+assets/
+# P2 verification scratch — cloned quickstart demo (venv/node_modules ~800MB).
+dsh-agora-p2-demo/
+# Internal design docs — kept local-only, never committed/published.
+docs/
+

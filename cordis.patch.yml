@@ -1,0 +1,5 @@
+# dsh-agora bundle patch: insert the bundled skill provider row.
+# Installed via `dsh plugin --profile <name> add <pkg>`; takes effect on restart.
+- insert:
+    - id: agora-skills
+      name: 'dsh-agora'

@@ -1,6 +1,6 @@
 {
   "name": "dsh-agora",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "DSH skill bundle: the Agora skill (RTC, RTM, ConvoAI, CLI, Cloud Recording, tokens) synced verbatim from AgoraIO/skills at a pinned release tag. Install to add the `agora` skill to DeepSeek Harness.",
   "type": "module",
   "main": "index.js",
@@ -17,7 +17,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/littleDogWang/dsh-agora.git"
+    "url": "git+https://github.com/AgoraIO-Community/dsh-agora.git"
   },
   "keywords": [
     "deepseek-harness",

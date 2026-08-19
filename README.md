@@ -23,8 +23,17 @@ dsh plugin --profile web add /path/to/dsh-agora
 ```
 
 > **pnpm workspace-root gotcha**: with pnpm ≥ 8.15 the profile's workspace
-> root rejects a bare `add` (`ERR_PNPM_ADDING_TO_ROOT`). Add `-w`:
-> `dsh plugin --profile web add -w <pkg>`.
+> root rejects a bare `add` (`ERR_PNPM_ADDING_TO_ROOT`). The clean fix is to
+> disable the check once per profile so plain `dsh plugin add` just works:
+>
+> ```sh
+> echo "ignore-workspace-root-check=true" > ~/.dsh/profiles/web/.npmrc
+> dsh plugin --profile web add dsh-agora
+> ```
+>
+> (Alternative: add `-w` to the command: `dsh plugin --profile web add -w dsh-agora`.
+> The root cause is dsh's `plugin` subcommand forwarding verbatim to pnpm with
+> no package-manager switch — worth an upstream issue if it bites more users.)
 >
 > **link: dev mode**: the profile must resolve the runtime peer
 > `@deepseek-ai/dsh-skill`. Install it in the repo checkout first

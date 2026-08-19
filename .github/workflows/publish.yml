@@ -1,0 +1,38 @@
+name: publish
+
+# Trusted Publisher (Part 2 of 2).
+# Part 1 is the npm-side registration: npm package -> Access ->
+# Trusted Publishers -> add "AgoraIO-Community / dsh-agora / publish".
+# This workflow is the GitHub-side flow that npm's OIDC check authorizes.
+#
+# Publish flow: push a tag `vX.Y.Z` -> sync latest skill content via the
+# prepack hook -> npm publish.
+#
+# NOTE: this runs in OIDC (trusted-publisher) mode — no NPM_TOKEN secret
+# is stored or needed. npm verifies this run's GitHub identity via the
+# id-token permission and matches it against the registered trusted
+# publisher on the package.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  id-token: write # required: lets npm verify this run's GitHub OIDC identity
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+
+      # prepack hook runs scripts/sync-deps.sh, which pulls the pinned
+      # AgoraIO/skills release tag content into assets/agora before packing.
+      - name: Publish to npm
+        run: npm publish

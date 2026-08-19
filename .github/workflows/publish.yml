@@ -36,12 +36,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22.14' # >= 22.14 (npm 11 requires Node >= 22.14)
+          node-version: '22.22' # npm 11 needs Node >= 22.14; npm 12 needs >= 22.22.2
 
-      # npm >= 11.5.1 is the OIDC/trusted-publishing minimum. Node 22.14
-      # ships npm 10.x, which does not support trusted publishing at all.
+      # npm >= 11.5.1 is the OIDC/trusted-publishing minimum. Node 22.x
+      # bundles npm 10.x, which does not support trusted publishing at all.
       - name: Upgrade npm for trusted publishing
-        run: npm install -g npm@latest
+        run: npm install -g npm@11
 
       - name: Verify npm version
         run: npm --version

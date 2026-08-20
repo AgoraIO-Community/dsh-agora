@@ -1,32 +1,20 @@
 <!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
 
-
 # 国内 CLI 命令与版本
 
-验证基线：CLI `0.2.8`（`agora introspect --json` 实测）。
+验证基线：与上游 `agora` skill 一致 —— CLI `0.2.1`。
 
-> 注意版本漂移：`agora` skill 内容基线是 CLI `0.2.1`，其中 `agora project create --region global|cn`
-> 在 `0.2.8` 已**不存在**——国内 flag 已经搬家到 login / data-center。
+## 国内命令面（0.2.1）
 
-## 国内命令面（0.2.8 实测）
+- 选 CN 区域：`agora project create <name> --region cn`（`--region global|cn`）
+- RTM 数据中心：`agora project create <name> --rtm-data-center CN`（flag 在 0.2.1 已有；官方示例只列 `EU`/`AP`，`CN` 为国内数据中心）
+- 一键脚手架：`agora init <name> --template <t> --region cn`
 
-- 登录国内控制台：`agora login --region cn`（等价 `agora auth login --region cn`；默认 `global`）
-- RTM 数据中心：`agora project create ... --rtm-data-center CN`（可选 `CN|NA|EU|AP`，默认 `NA`）
-- 一键脚手架：`agora init <name> --template <t> --rtm-data-center CN`
-- Webhook 投递区域：`agora project webhook create ... --delivery-region cn`（可选 `cn|sea|na|eu`）
+## 说明
 
-## 版本要求
-
-- CN 入口（`login --region cn`、`--rtm-data-center CN`）比 `agora` skill 的验证基线 `0.2.1` 新。
-- **确切引入版本待钉**：本机 `0.2.8` 已实测具备这两个 flag；低于该版本的 CLI 没有它们。
-- 落地建议：国内路径要求 CLI 至少为实测具备 CN flag 的版本（当前以 `0.2.8` 为参照下界）。
-
-## 端点相关环境变量（`agora env-help --json` 实测）
-
-- `AGORA_CONSOLE_URL` — 覆盖 `agora open --target console` 的 URL
-- `AGORA_API_BASE_URL`（默认 `https://agora-cli.agora.io`）
-- `AGORA_OAUTH_BASE_URL`（默认 `https://sso2.agora.io`）
+- 登录：`agora login`（0.2.1 无 region 参数；区域在创建/选择项目时用 `--region` 指定）。
+- 版本漂移：较新 CLI（如 0.2.8）把 `--region` 从 `project create` 挪到了 `login`。若本机 CLI 比 0.2.1 新，按上游 `agora` skill 规则用 `agora introspect --json` 现查当前命令面。
 
 ## 待验证
 
-- `agora login --region cn` 的 OAuth 流程端到端（需声网账号实测）。
+- `agora project create --region cn` 端到端创建国内项目（需声网账号实测）。

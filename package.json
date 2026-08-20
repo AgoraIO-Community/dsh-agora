@@ -1,6 +1,6 @@
 {
   "name": "dsh-agora",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "DSH skill bundle: the Agora skill (RTC, RTM, ConvoAI, CLI, Cloud Recording, tokens) synced verbatim from AgoraIO/skills at a pinned release tag. Install to add the `agora` skill to DeepSeek Harness.",
   "type": "module",
   "main": "index.js",

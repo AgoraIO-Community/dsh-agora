@@ -97,7 +97,7 @@ let rtmClient = try AgoraRtmClientKit(config, delegate: nil)
 
 | 层 | 入口 | 作用 | CN 取值 |
 |---|---|---|---|
-| **控制面**（项目/凭据落在哪个区域后端） | CLI `agora project create ... --rtm-data-center CN` / `agora init --rtm-data-center CN` | 决定项目在哪个区域后台开通、去哪个控制台拿 App ID | `CN`（另 `NA`/`EU`/`AP`，默认 `NA`） |
+| **控制面**（项目/凭据落在哪个区域后端） | CLI `agora project create ... --rtm-data-center CN` / `agora init --rtm-data-center CN` | 决定项目在哪个区域后台开通、去哪个控制台拿 App ID | `CN`（另 `NA`/`EU`/`AP`） |
 | **数据面**（SDK 运行时连哪个 SDRTN 边缘区域） | 客户端 area code（§1–§3 的 `setArea` / `areaCode`） | 决定 SDK 连到哪个区域的 RTM 服务边缘节点 | Web `"CHINA"`；Android `RtmAreaCode.CN`；iOS `.CN` |
 
 - CLI 的 `--rtm-data-center CN` **不会**替客户端设置 area code，反之亦然：国内部署要**两者都设**
@@ -106,7 +106,7 @@ let rtmClient = try AgoraRtmClientKit(config, delegate: nil)
   （`CN/NA/EU/AS/JP/IN/GLOB`），没有字面一一对应（CLI 的 `AP` 无同名 SDK 码）。这是"控制面 vs 数据面"
   两个维度，不是同一枚举的两套别名。
 
-来源：CLI 行为以 `agora` CLI 实测为准（`agora init --rtm-data-center CN` / `project create`）；SDK
+来源：CLI 控制面与上游 `agora` skill 基线（0.2.1）一致（`--rtm-data-center` flag）；SDK
 area code 见 §1–§3 来源。
 
 ### 5. CN 域名 / 端点（RTM Web 消息频道）

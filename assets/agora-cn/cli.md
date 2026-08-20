@@ -1,8 +1,7 @@
-<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+# 国内 CLI 差异映射（region == cn 时使用）
 
-# 国内 CLI 命令与版本
-
-验证基线：与上游 `agora` skill 一致 —— CLI `0.2.1`。
+> 本文件是英文 reference 的 CN 差异对照，不是独立教程。region == cn 时，走英文 route，
+> 进入对应英文 ref 前按本文件替换 CN 差异点。命令面细节见同目录英文 `README.md`。
 
 ## 国内命令面（0.2.1）
 
@@ -15,6 +14,4 @@
 - 登录：`agora login`（0.2.1 无 region 参数；区域在创建/选择项目时用 `--region` 指定）。
 - 版本漂移：较新 CLI（如 0.2.8）把 `--region` 从 `project create` 挪到了 `login`。若本机 CLI 比 0.2.1 新，按上游 `agora` skill 规则用 `agora introspect --json` 现查当前命令面。
 
-## 待验证
 
-- `agora project create --region cn` 端到端创建国内项目（需声网账号实测）。

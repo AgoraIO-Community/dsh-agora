@@ -38,7 +38,7 @@ Restart the web profile, and the `agora` skill appears in the skill catalog.
 
 ## Shengwang support
 
-The same `agora` skill covers the Shengwang region (`console.shengwang.cn`). At release time, the plugin appends a per-product CN delta to each product reference, so the model picks the right section based on the user's intent (China vs global):
+The same `agora` skill covers the Shengwang region (`console.shengwang.cn`). At release time, the plugin injects a **region gate** at the top of each product reference — the model confirms China vs global first — and ships a per-product CN difference map (`cn.md`) that the model loads only when the user targets mainland China:
 
 | Product | CN delta |
 |---|---|
@@ -47,9 +47,9 @@ The same `agora` skill covers the Shengwang region (`console.shengwang.cn`). At 
 | Cloud Recording | `api.sd-rtn.com` + `clientRequest.region="CN"` + mainland storage |
 | Server (token) | token algorithm unchanged; CN REST domain + credential menu path |
 | Agora CLI | `agora project create --region cn` / `--rtm-data-center CN` |
-| ConvoAI | endpoint (`Area.CN`) + CN vendor catalog + managed/BYOK — **recorded as current status; end-to-end not yet verified** |
+| ConvoAI | English quickstart skeleton + `api.agora.io/cn` endpoint + BYOK vendors (`fengming` ASR, `deepseek`/`minimax` LLM/TTS) |
 
-The official skill content stays verbatim; the CN deltas are injected at build time (see `scripts/sync-deps.sh`), so there is still a single `agora` skill — no separate companion skill.
+The official skill content stays verbatim; the region gate and CN maps are generated at build time (see `scripts/sync-deps.sh`), so there is still a single `agora` skill — no separate companion skill.
 
 ## Using the skill
 
@@ -57,7 +57,7 @@ Describe what you want in natural language — e.g. *"set up a voice AI agent wi
 
 ## FAQ
 
-**Does this repo contain the skill itself?** The official `agora` content is synced verbatim from the AgoraIO/skills repo at each release (not committed). The Shengwang deltas are maintained in this repo under `assets/agora-cn/` and injected into the product references at build time.
+**Does this repo contain the skill itself?** The official `agora` content is synced verbatim from the AgoraIO/skills repo at each release (not committed). The Shengwang deltas live in `assets/agora-cn/` and are built at release time into a per-product `cn.md` map plus a region gate (see `scripts/sync-deps.sh`).
 
 **Do I need the Agora CLI installed?** No. It's optional; if it's on your `PATH`, the skill uses it for faster workflows.
 

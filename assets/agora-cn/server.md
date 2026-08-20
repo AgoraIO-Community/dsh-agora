@@ -1,9 +1,7 @@
-<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+# 国内 Server（token / 鉴权）差异映射（region == cn 时使用）
 
-
-# 国内 Server：token / 鉴权
-
-验证基线：官方文档（声网 `doc.shengwang.cn` 与海外 `docs.agora.io` 对照）。
+> 本文件是英文 reference 的 CN 差异对照，不是独立教程。region == cn 时，走英文 route，
+> 进入对应英文 ref 前按本文件替换 CN 差异点。基础机制见同目录英文 `README.md`。
 
 ## 已确认的国内 delta
 
@@ -52,11 +50,6 @@ CN 文档指向的仍是同一个 `AgoraDynamicKey` 仓库；`agora-token`（npm
 ### 其余一致
 
 - token 约束：24h 最长有效期、过期前 30s `token-privilege-will-expire`、UID 范围 1..(2³²-1)——CN 与海外相同。
-
-## 待验证 / 未知
-
-1. 云端录制 base URL 已在两套文档统一为 `api.sd-rtn.com`（已确认）；但 RTC 服务端 RESTful 是否也在向 `api.sd-rtn.com` 统一、迁移期 `api.agora.io` 是否仍可用——未钉死。
-2. `agoracn/token` 是否有海外等价镜像 `agoraio/token`（未在海外文档找到，未确认）。
 
 ## 来源
 

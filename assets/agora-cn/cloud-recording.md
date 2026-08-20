@@ -1,9 +1,7 @@
-<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+# 国内 Cloud Recording 差异映射（region == cn 时使用）
 
-
-# 国内 Cloud Recording：控制台 / 端点 / 存储
-
-验证基线：声网 `doc.shengwang.cn` 与海外 `docs.agora.io` 对照。
+> 本文件是英文 reference 的 CN 差异对照，不是独立教程。region == cn 时，走英文 route，
+> 进入对应英文 ref 前按本文件替换 CN 差异点。基础机制见同目录英文 `README.md`。
 
 ## 已确认的国内 delta
 
@@ -33,13 +31,6 @@
 - **鉴权机制**：HTTP Basic Auth `Authorization: Basic base64(CustomerID:CustomerSecret)` 完全一致；仅 Customer ID/Secret 的生成控制台不同（声网：设置 → RESTful API）。
 - **录制模式/特性**：`individual`/`mix`/`web`、`streamMode`、`transcodingConfig`、订阅黑白名单、NCS webhook、云端截图、格式转换——均一致。
 - **storageConfig 字段集**：bucket/accessKey/secretKey/fileNamePrefix + `stsToken`/`stsExpiration`（S3/Aliyun/Tencent）一致。
-
-## 待验证 / 未知
-
-1. `clientRequest.region` 字段在**声网（CN）文档**里是否逐字一致未直接取到（CN operation 页 doc-mcp 返回"获取文档内容失败"；字段已从海外 canonical acquire 参考确认，但 CN 侧逐字出处缺失）。
-2. 阿里云 region 编号 26/27 命名在 CN 与海外文档不一致（一方疑似笔误，未判定哪方正确）。
-3. 迁移期 `api.agora.io` 是否仍实际可用（海外 canonical 已统一为 `api.sd-rtn.com`）。
-4. 是否需要显式传 `clientRequest.region="CN"`（默认按发起服务器区域；声网账号默认是否已落 CN 未实测）。硬性大陆数据驻留时建议显式 `"CN"` 并匹配存储 region，但未经运行时验证。
 
 ## 来源
 

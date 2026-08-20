@@ -40,25 +40,57 @@ mkdir -p "$DEST"
 rsync -a --delete "$SRC/" "$DEST/"
 
 # --- China-mainland (国内/声网) delta injection ---------------------------------
-# The official skill is global-only. Append our CN deltas (committed in
-# assets/agora-cn/) to the corresponding product README so the single `agora`
-# skill covers both regions. Idempotent: rsync --delete above resets first.
+# 1) Copy CN deltas (committed in assets/agora-cn/) to each product dir as an
+#    independent cn.md difference map — English references stay verbatim.
+# 2) Inject a structured region gate right after each README's H1 title, so the
+#    model must confirm cn/global before routing. rsync --delete above resets
+#    first, so this regenerates cleanly every time.
 CN_SRC="$REPO_ROOT/assets/agora-cn"
-inject_cn() {
+
+install_cn() {
   local seg="$1" target="$2"
-  if [[ -f "$seg" && -f "$target" ]]; then
-    printf '\n' >> "$target"
-    cat "$seg" >> "$target"
-    echo "dsh-agora: injected CN delta -> ${target#"$DEST"/}"
+  if [[ -f "$seg" ]]; then
+    cp "$seg" "$target"
+    echo "dsh-agora: installed CN map -> ${target#"$DEST"/}"
   else
-    echo "dsh-agora: WARN — CN segment ($seg) or target ($target) missing; skipping" >&2
+    echo "dsh-agora: WARN — CN map ($seg) missing; skipping" >&2
   fi
 }
-inject_cn "$CN_SRC/rtc.md"               "$DEST/references/rtc/README.md"
-inject_cn "$CN_SRC/rtm.md"               "$DEST/references/rtm/README.md"
-inject_cn "$CN_SRC/cloud-recording.md"   "$DEST/references/cloud-recording/README.md"
-inject_cn "$CN_SRC/server.md"            "$DEST/references/server/README.md"
-inject_cn "$CN_SRC/cli.md"               "$DEST/references/cli/README.md"
-inject_cn "$CN_SRC/conversational-ai.md" "$DEST/references/conversational-ai/README.md"
+install_cn "$CN_SRC/rtc.md"               "$DEST/references/rtc/cn.md"
+install_cn "$CN_SRC/rtm.md"               "$DEST/references/rtm/cn.md"
+install_cn "$CN_SRC/cloud-recording.md"   "$DEST/references/cloud-recording/cn.md"
+install_cn "$CN_SRC/server.md"            "$DEST/references/server/cn.md"
+install_cn "$CN_SRC/cli.md"               "$DEST/references/cli/cn.md"
+install_cn "$CN_SRC/conversational-ai.md" "$DEST/references/conversational-ai/cn.md"
+
+prepend_region_gate() {
+  local gate="$1" target="$2"
+  if [[ -f "$gate" && -f "$target" ]]; then
+    local tmp
+    tmp="$(mktemp)"
+    awk -v gatefile="$gate" '
+      !inserted && /^# / {
+        print
+        print ""
+        while ((getline line < gatefile) > 0) print line
+        close(gatefile)
+        inserted = 1
+        next
+      }
+      { print }
+    ' "$target" > "$tmp"
+    mv "$tmp" "$target"
+    echo "dsh-agora: injected region gate -> ${target#"$DEST"/}"
+  else
+    echo "dsh-agora: WARN — region gate ($gate) or target ($target) missing; skipping" >&2
+  fi
+}
+GATE="$CN_SRC/_region-gate.md"
+prepend_region_gate "$GATE" "$DEST/references/rtc/README.md"
+prepend_region_gate "$GATE" "$DEST/references/rtm/README.md"
+prepend_region_gate "$GATE" "$DEST/references/cloud-recording/README.md"
+prepend_region_gate "$GATE" "$DEST/references/server/README.md"
+prepend_region_gate "$GATE" "$DEST/references/cli/README.md"
+prepend_region_gate "$GATE" "$DEST/references/conversational-ai/README.md"
 
 echo "dsh-agora: synced $(find "$DEST" -type f | wc -l | tr -d ' ') files from ${TAG} -> assets/agora/"

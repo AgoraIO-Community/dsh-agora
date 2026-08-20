@@ -1,11 +1,7 @@
-<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+# 国内 RTM（云信令）差异映射（region == cn 时使用）
 
-
-# 国内 RTM（云信令 / Signaling）差异：区域 / 数据中心
-
-> 本页只记录国内（大陆 / 声网 / CN 区域）与海外 RTM 的差异。
-> 基础机制（login / subscribe / publish / presence / storage / lock / stream channel）见上文（海外部分）。
-> 海外基线里**完全没有** region/area/domain 内容，本节补齐。
+> 本文件是英文 reference 的 CN 差异对照，不是独立教程。region == cn 时，走英文 route，
+> 进入对应英文 ref 前按本文件替换 CN 差异点。基础机制见同目录英文 `README.md`。
 
 验证基线：Web SDK `agora-rtm` 2.3.0（npm 包 `agora-rtm.d.ts` 实测，latest=2.3.0）；原生 SDK 2.x
 声网文档（`doc.shengwang.cn` api-ref + `docs.agora.io` signaling 文档）。
@@ -132,13 +128,4 @@ area code 见 §1–§3 来源。
 - **areaCode 是可选的**：不设默认 `GLOB`（全球），行为与海外完全一致；只有需要限定/合规时才设 CN。
 
 
-## 待验证 / 未知
 
-- **原生（Android/iOS）RTM 的精确 CN 接入点域名**：海外防火墙文档"Signaling SDK (Native)"小节只列了
-  `.agora.io`（未列出 `.sd-rtn.com` 原生宿主名）。已确认的是后缀 `sd-rtn.com` + Web 端列出的
-  `rtm.*.sd-rtn.com` 系列；原生设 `RtmAreaCode.CN` / `.CN` 后连接的确切信令 host 未在公开白名单页
-  单独枚举，落地如需精确域名按 `doc.shengwang.cn` 现查。
-- **`--rtm-data-center CN` 与 SDK area code 的字面等价**：官方文档没有一句"CLI CN == 客户端 areaCode CN"
-  的直接表述；本页按"控制面 vs 数据面"两层表述（§4），但若需要权威原文确认二者的绑定关系，属待验证。
-- **v1（legacy）SDK 的国内配置**：v2 包里保留的 `LegacyAreaCode.CN = "CN"` 是 v1 兼容枚举；独立 v1
-  包（`agora-rtm-sdk`）的国内 area code 具体 API/取值未在本任务核实。

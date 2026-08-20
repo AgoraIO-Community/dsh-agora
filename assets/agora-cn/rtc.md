@@ -1,11 +1,7 @@
-<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+# 国内 RTC 差异映射（region == cn 时使用）
 
-
-# 国内 RTC 差异（声网 / CN Region）
-
-> 本页只记录国内（大陆 / 声网 / CN 区域）与海外 RTC 的差异。
-> 基础机制（join / publish / subscribe / token / channel profile）见上文（海外部分）。
-> 海外基线里**完全没有** region/area/domain 内容，本节补齐。
+> 本文件是英文 reference 的 CN 差异对照，不是独立教程。region == cn 时，走英文 route，
+> 进入对应英文 ref 前按本文件替换 CN 差异点。基础机制见同目录英文 `README.md`。
 
 验证基线：Web SDK `agora-rtc-sdk-ng` 4.24.7（`rtc-sdk_en.d.ts` 实测）；原生 SDK 4.x 声网文档
 （`doc.shengwang.cn` + `docs-md.agora.io`）。
@@ -151,16 +147,4 @@ m_rtcEngine->initialize(context);
 - **编解码/双流/屏幕共享**等能力面无 CN 差异；差异只在"连哪个区域/什么网络"。
 
 
-## 待验证 / 未知
 
-- **原生 RTC 信令的精确接入点域名**：设置 `AREA_CODE_CN` 后原生 SDK 连接的确切信令主机名
-  （是否字面就是 `api.sd-rtn.com`）没有公开的"白名单域名"页可查（原生不支持防火墙白名单，官方未列域名）。
-  已确认的是后缀 `sd-rtn.com` + REST 主域名 `api.sd-rtn.com`；原生媒体信令具体 host 记为待验证。
-- **私有媒体网关（本地接入点 / 混合部署）**：确认原生有 `AgoraLocalAccessPointConfiguration` +
-  `setLocalAccessPoint`、Web 有 `setProxyServer`，但这是单独的企业私有化/混合部署项目（需声网部署本地媒体网关），
-  未在本任务里核实其完整开通流程与字段，落地前需按 `doc.shengwang.cn` 现查。
-- **Web `setArea` 单字符串写法**：中文文档示例是 `AgoraRTC.setArea("ASIA")`（单字符串），
-  而 4.24.7 类型签名是 `AREAS[] | { areaCode, excludedArea }`；运行时是否仍兼容单字符串未实测，
-  建议统一用 `setArea({ areaCode: "CHINA" })`。
-- **云代理"国内测试 IP"清单会漂移**：中文防火墙文档列出的国内测试 IP（如 `150.138.153.78` 等）
-  仅供测试、正式上线要声网另发，且清单随版本更新，落地以申请后声网提供为准。

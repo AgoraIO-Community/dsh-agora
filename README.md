@@ -1,6 +1,6 @@
 # dsh-agora
 
-**A DeepSeek Harness (DSH) plugin that adds the official Agora skill — plus a China-mainland (国内/声网) companion skill — to your agent.** One install gives you voice AI agents, RTC video/voice calls, RTM chat & signaling, Cloud Recording, Agora CLI acceleration, and server-side token generation — driven from natural language.
+**A DeepSeek Harness (DSH) plugin that adds the official Agora skill — with China-mainland (国内/声网) support baked in — to your agent.** One install gives you voice AI agents, RTC video/voice calls, RTM chat & signaling, Cloud Recording, Agora CLI acceleration, and server-side token generation — driven from natural language.
 
 The skill is synced verbatim from the official [AgoraIO/skills](https://github.com/AgoraIO/skills) repository, so it always matches the Agora docs and quickstarts.
 
@@ -22,7 +22,7 @@ dsh plugin --profile web add dsh-agora
 > dsh plugin --profile web add -w dsh-agora
 > ```
 
-Restart the web profile, and the `agora` skill appears in the skill catalog, alongside the `agora-cn` companion.
+Restart the web profile, and the `agora` skill appears in the skill catalog.
 
 ## What the skill covers
 
@@ -38,7 +38,7 @@ Restart the web profile, and the `agora` skill appears in the skill catalog, alo
 
 ## China-mainland (国内/声网) support
 
-The plugin also ships a companion skill, **`agora-cn`**, that documents only the delta between the global (overseas) path and the China-mainland (国内 / 声网 / `console.shengwang.cn`) path — per product:
+The same `agora` skill covers the China-mainland (国内 / 声网 / `console.shengwang.cn`) region. At release time, the plugin appends a per-product China delta to each product reference, so the model picks the right section based on the user's intent (国内 vs global):
 
 | Product | CN delta |
 |---|---|
@@ -49,7 +49,7 @@ The plugin also ships a companion skill, **`agora-cn`**, that documents only the
 | Agora CLI | `agora login --region cn` / `--rtm-data-center CN` |
 | ConvoAI | endpoint (`Area.CN`) + CN vendor catalog + managed/BYOK — **recorded as current status; end-to-end not yet verified** |
 
-`agora-cn` supplements `agora` without rewriting it: the official skill stays verbatim, and `agora-cn` only adds the China-region differences. For a domestic (国内/声网) deployment, load `agora-cn`; otherwise use `agora`.
+The official skill content stays verbatim; the CN deltas are injected at build time (see `scripts/sync-deps.sh`), so there is still a single `agora` skill — no separate companion skill.
 
 ## Using the skill
 
@@ -57,7 +57,7 @@ Describe what you want in natural language — e.g. *"set up a voice AI agent wi
 
 ## FAQ
 
-**Does this repo contain the skill itself?** The official `agora` skill is synced verbatim from the AgoraIO/skills repo at each release (not committed); the `agora-cn` companion is maintained in this repo under `assets/agora-cn/`.
+**Does this repo contain the skill itself?** The official `agora` content is synced verbatim from the AgoraIO/skills repo at each release (not committed). The China-mainland (国内/声网) deltas are maintained in this repo under `assets/agora-cn/` and injected into the product references at build time.
 
 **Do I need the Agora CLI installed?** No. It's optional; if it's on your `PATH`, the skill uses it for faster workflows.
 

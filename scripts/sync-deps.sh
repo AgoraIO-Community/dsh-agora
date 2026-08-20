@@ -39,4 +39,26 @@ mkdir -p "$DEST"
 # --delete: removed files in the source disappear here too — no drift, ever.
 rsync -a --delete "$SRC/" "$DEST/"
 
+# --- China-mainland (国内/声网) delta injection ---------------------------------
+# The official skill is global-only. Append our CN deltas (committed in
+# assets/agora-cn/) to the corresponding product README so the single `agora`
+# skill covers both regions. Idempotent: rsync --delete above resets first.
+CN_SRC="$REPO_ROOT/assets/agora-cn"
+inject_cn() {
+  local seg="$1" target="$2"
+  if [[ -f "$seg" && -f "$target" ]]; then
+    printf '\n' >> "$target"
+    cat "$seg" >> "$target"
+    echo "dsh-agora: injected CN delta -> ${target#"$DEST"/}"
+  else
+    echo "dsh-agora: WARN — CN segment ($seg) or target ($target) missing; skipping" >&2
+  fi
+}
+inject_cn "$CN_SRC/rtc.md"               "$DEST/references/rtc/README.md"
+inject_cn "$CN_SRC/rtm.md"               "$DEST/references/rtm/README.md"
+inject_cn "$CN_SRC/cloud-recording.md"   "$DEST/references/cloud-recording/README.md"
+inject_cn "$CN_SRC/server.md"            "$DEST/references/server/README.md"
+inject_cn "$CN_SRC/cli.md"               "$DEST/references/cli/README.md"
+inject_cn "$CN_SRC/conversational-ai.md" "$DEST/references/conversational-ai/README.md"
+
 echo "dsh-agora: synced $(find "$DEST" -type f | wc -l | tr -d ' ') files from ${TAG} -> assets/agora/"

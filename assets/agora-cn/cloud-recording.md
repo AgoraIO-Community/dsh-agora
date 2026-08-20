@@ -1,14 +1,5 @@
----
-name: agora-cn-cloud-recording
-description: |
-  China-mainland (国内/声网) Cloud Recording delta: 声网 console + enable-service,
-  the (now-unified) api.sd-rtn.com base URL, clientRequest.region="CN", and CN
-  storage regions. Use for 国内录制, cloud recording CN, clientRequest.region, 录制存储.
-license: MIT
-metadata:
-  author: agora
-  version: '0.1.0'
----
+<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+
 
 # 国内 Cloud Recording：控制台 / 端点 / 存储
 

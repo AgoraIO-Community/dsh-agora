@@ -1,15 +1,5 @@
----
-name: agora-cn-conversational-ai
-description: |
-  China-mainland (国内/声网) Conversational AI delta: console.shengwang.cn + service
-  enablement, CN REST endpoint routing (Area.CN), and the CN vendor catalog with its
-  managed-vs-BYOK credential matrix. Use for 国内 voice agent, 声网 ConvoAI, Area.CN,
-  or CN vendor/BYOK questions.
-license: MIT
-metadata:
-  author: agora
-  version: '0.1.0'
----
+<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+
 
 # 国内 ConvoAI：现状 + 端点 / vendor
 

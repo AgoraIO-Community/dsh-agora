@@ -1,15 +1,5 @@
----
-name: agora-cn-server
-description: |
-  China-mainland (国内/声网) server-side token/auth delta: token algorithm is
-  region-agnostic, CN REST domain (api.sd-rtn.com), CN console RESTful API
-  credential location, and the CN Docker token image. Use for 国内 token,
-  声网 token server, api.sd-rtn.com, RESTful API 凭证.
-license: MIT
-metadata:
-  author: agora
-  version: '0.1.0'
----
+<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+
 
 # 国内 Server：token / 鉴权
 
@@ -27,7 +17,7 @@ CN 主域名 `sd-rtn.com`，但**不是所有服务端产品都换域名**：
 | RTC 服务端 RESTful（频道管理/踢人规则等） | `https://api.sd-rtn.com` | `https://api.agora.io` |
 
 > 云端录制 base URL 已在海外/国内两套文档里统一为 `api.sd-rtn.com`、且无 `/cn/` 前缀；
-> 其真正的国内差异是「控制台换成声网 + `clientRequest.region="CN"`」，详见 [cloud-recording.md](cloud-recording.md)。
+> 其真正的国内差异是「控制台换成声网 + `clientRequest.region="CN"`」。
 
 ### 2. Basic Auth 的客户 ID / 密钥获取位置不同
 

@@ -1,27 +1,15 @@
----
-name: agora-cn-rtc
-description: |
-  China-mainland (国内/声网) delta for Agora RTC (video/voice calling, live
-  streaming, screen share, join/publish/subscribe): CN region selection
-  (Web setArea / native areaCode), CN signaling domain (sd-rtn.com), and the
-  cloud-proxy / firewall setup for mainland restricted networks. Use for 国内
-  RTC, 声网 RTC, AREA_CODE_CN, setArea CHINA, or 云代理 questions.
-license: MIT
-metadata:
-  author: agora
-  version: '0.1.0'
----
+<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+
 
 # 国内 RTC 差异（声网 / CN Region）
 
 > 本页只记录国内（大陆 / 声网 / CN 区域）与海外 RTC 的差异。
-> 基础机制（join / publish / subscribe / token / channel profile）仍以 `agora` skill 的
-> `references/rtc/*` 为准。海外基线里**完全没有** region/area/domain 内容，本页补齐。
+> 基础机制（join / publish / subscribe / token / channel profile）见上文（海外部分）。
+> 海外基线里**完全没有** region/area/domain 内容，本节补齐。
 
 验证基线：Web SDK `agora-rtc-sdk-ng` 4.24.7（`rtc-sdk_en.d.ts` 实测）；原生 SDK 4.x 声网文档
 （`doc.shengwang.cn` + `docs-md.agora.io`）。
 
----
 
 ## 已确认的国内 delta
 
@@ -152,7 +140,6 @@ m_rtcEngine->initialize(context);
 来源：
 - `https://docs-md.agora.io/en/broadcast-streaming/reference/firewall_android.md`
 
----
 
 ## 与海外一致（无 delta）
 
@@ -163,7 +150,6 @@ m_rtcEngine->initialize(context);
 - **token 续期**：`token-privilege-will-expire`（Web）/ `onTokenPrivilegeWillExpire`（原生）+ `renewToken` 同海外。
 - **编解码/双流/屏幕共享**等能力面无 CN 差异；差异只在"连哪个区域/什么网络"。
 
----
 
 ## 待验证 / 未知
 

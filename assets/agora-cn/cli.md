@@ -1,14 +1,5 @@
----
-name: agora-cn-cli
-description: |
-  China-mainland Agora CLI commands: login/console region, CN RTM data center,
-  webhook delivery region, and the version requirement for CN flags. Use for
-  国内 CLI, agora login --region cn, or --rtm-data-center CN.
-license: MIT
-metadata:
-  author: agora
-  version: '0.1.0'
----
+<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+
 
 # 国内 CLI 命令与版本
 

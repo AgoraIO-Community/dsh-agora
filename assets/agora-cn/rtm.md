@@ -1,28 +1,15 @@
----
-name: agora-cn-rtm
-description: |
-  China-mainland (国内/声网) delta for Agora Signaling (RTM, 云信令): CN area
-  code / region selection on Web (AgoraRTM.setArea) and native (RtmAreaCode.CN /
-  AgoraRtmAreaCode.CN), the CN data-center concept vs the CLI
-  `--rtm-data-center CN` control-plane flag, and the CN endpoint domain
-  (sd-rtn.com). Use for 国内 RTM / 云信令, RTM data center CN, RTM setArea
-  CHINA, RtmAreaCode.CN questions.
-license: MIT
-metadata:
-  author: agora
-  version: '0.1.0'
----
+<!-- CN-REGION 触发条件：仅当用户目标是国内/声网/China/CN/大陆时适用本段；若用户未说明 region，先问"国内还是海外"再决定；海外（global/console.agora.io）场景跳过本段。 -->
+
 
 # 国内 RTM（云信令 / Signaling）差异：区域 / 数据中心
 
 > 本页只记录国内（大陆 / 声网 / CN 区域）与海外 RTM 的差异。
-> 基础机制（login / subscribe / publish / presence / storage / lock / stream channel）仍以
-> `agora` skill 的 `references/rtm/*` 为准。海外基线里**完全没有** region/area/domain 内容，本页补齐。
+> 基础机制（login / subscribe / publish / presence / storage / lock / stream channel）见上文（海外部分）。
+> 海外基线里**完全没有** region/area/domain 内容，本节补齐。
 
 验证基线：Web SDK `agora-rtm` 2.3.0（npm 包 `agora-rtm.d.ts` 实测，latest=2.3.0）；原生 SDK 2.x
 声网文档（`doc.shengwang.cn` api-ref + `docs.agora.io` signaling 文档）。
 
----
 
 ## 已确认的国内 delta
 
@@ -134,7 +121,6 @@ area code 见 §1–§3 来源。
 来源：
 - `https://docs.agora.io/en/signaling/reference/firewall`（"Signaling SDK (Web) → Message channel → Domains"）
 
----
 
 ## 与海外一致（无 delta）
 
@@ -145,7 +131,6 @@ area code 见 §1–§3 来源。
 - **客户端形态**：RTM 仍是纯客户端 SDK（无服务端 SDK / 无 Electron/桌面版），CN 下不变。
 - **areaCode 是可选的**：不设默认 `GLOB`（全球），行为与海外完全一致；只有需要限定/合规时才设 CN。
 
----
 
 ## 待验证 / 未知
 
